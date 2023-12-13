@@ -7,7 +7,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @OneToOne(mappedBy = "account")
     Long id;
 
     String name;

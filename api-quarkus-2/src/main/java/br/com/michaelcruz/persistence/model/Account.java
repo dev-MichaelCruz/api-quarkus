@@ -14,7 +14,7 @@ public class Account {
 
     double balance;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "user_id")
     User user;
 

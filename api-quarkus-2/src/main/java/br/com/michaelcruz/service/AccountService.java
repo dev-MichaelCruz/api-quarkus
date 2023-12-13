@@ -37,66 +37,27 @@ public class AccountService {
     }
 
     public void depositToAccount(@Valid Long accountId, double amount){
-        AccountDTO accountDTO = accountUtil.accountInfo(accountId);
-        UserDTO userDTO = userService.getUserDetails(accountId);
 
-        if(accountDTO == null){
-            throw new NotFoundException("Conta não encontrada");
-        }
+        Optional<Account> optionalAccount = accountDAO.findById(accountId);
 
-        if(accountDTO.getType() == AccountType.CONTA_POUPANCA){
-            accountDTO.setBalance(accountDTO.getBalance() + amount + 0.5);
+        if(optionalAccount != null && optionalAccount.isPresent()){
+            Account account = optionalAccount.get();
+
+            if (amount > 0){
+                double newBalance = account.getBalance() + amount;
+
+                if(account.getType() == AccountType.CONTA_POUPANCA){
+                    newBalance += 0.5;
+                }
+
+                account.setBalance(newBalance);
+                accountDAO.update(account);
+            } else {
+                throw new BadRequestException("Valor do depósito precisa ser maior que zero");
+            }
         } else {
-            accountDTO.setBalance(accountDTO.getBalance() + amount);
+            throw new NotFoundException("Conta informada não encontrada");
         }
-
-        Account account = accountUtil.convertToAccount(accountDTO, userDTO);
-
-        this.accountDAO.update(account);
-//        Optional<Account> accountOptional = accountDAO.findById(accountId);
-//
-//        Account account = accountOptional.get();
-//        Double newBalance = account.getBalance() + amount;
-//
-//        if(account.getType() == AccountType.CONTA_POUPANCA){
-//            account.setBalance(newBalance + 0.5);
-//        } else {
-//            account.setBalance(newBalance);
-//        }
-//
-//        this.accountDAO.update(account);
-
-
-
-//
-//        Account account = accountDAO.getById(accountId);
-//
-//        double newBalance = account.getBalance() + amount;
-//
-//        account.setBalance(newBalance);
-
-
-
-//        Optional<Account> optionalAccount = accountDAO.findById(accountId);
-//
-//        if(optionalAccount != null && optionalAccount.isPresent()){
-//            Account account = optionalAccount.get();
-//
-//            if (amount > 0){
-//                double newBalance = account.getBalance() + amount;
-//
-//                if(account.getType() == AccountType.CONTA_POUPANCA){
-//                    newBalance += 0.5;
-//                }
-//
-//                account.setBalance(newBalance);
-//                accountDAO.save(account);
-//            } else {
-//                throw new BadRequestException("Valor do depósito precisa ser maior que zero");
-//            }
-//        } else {
-//            throw new NotFoundException("Conta informada não encontrada");
-//        }
     }
 
     public void withdraw(Long accountId, Double amount) {
@@ -107,14 +68,15 @@ public class AccountService {
 
             if(amount > 0 && account.getBalance() > amount) {
                 double newBalance = account.getBalance() - amount;
+
                 account.setBalance(newBalance);
 
-                accountDAO.save(account);
+                accountDAO.update(account);
 
 //                Account updatedAccount = accountDAO.save(account);
 //                return  accountUtil.convertToAccountDTO((updatedAccount));
             } else {
-                throw new BadRequestException("Valor do saque indisponpivel a conta");
+                throw new BadRequestException("Valor do saque indisponível na conta");
             }
         } else {
             throw new NotFoundException("Conta informada não encontrada");
@@ -124,6 +86,5 @@ public class AccountService {
     public List<Account> listAllAccounts(){
         return this.accountDAO.getAll();
     }
-
 
 }
