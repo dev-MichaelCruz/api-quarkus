@@ -1,12 +1,20 @@
 package br.com.michaelcruz.persistence.dto;
 
 import br.com.michaelcruz.persistence.model.AccountType;
+import jakarta.validation.constraints.NotNull;
 
 public class AccountDTO {
 
+    @NotNull(message = "Precisa informar um ID da conta")
     Long accountId;
+
+    @NotNull(message = "Precisa ser informado o tipo de conta")
     AccountType type;
+
+    @NotNull(message = "Precisa ser informado um saldo")
     double balance;
+
+    @NotNull(message = "Precisa informar um ID de usuário da conta")
     Long userId;
 
     public Long getAccountId() {

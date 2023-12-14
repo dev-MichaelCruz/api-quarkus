@@ -11,8 +11,6 @@ import br.com.michaelcruz.persistence.model.Account;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +30,6 @@ public class AccountService {
     public void createAccount(@Valid AccountDTO accountDTO) {
         UserDTO userDTO = userService.getUserDetails(accountDTO.getUserId());
         Account account = accountUtil.convertToAccount(accountDTO, userDTO);
-
         accountDAO.save(account);
     }
 

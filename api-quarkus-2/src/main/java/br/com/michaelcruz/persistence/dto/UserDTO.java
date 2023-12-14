@@ -1,13 +1,21 @@
 package br.com.michaelcruz.persistence.dto;
 
-import br.com.michaelcruz.persistence.model.AccountType;
+import jakarta.validation.constraints.NotNull;
 
 public class UserDTO {
 
     Long id;
+
+    @NotNull(message = "Precisa ser informado o nome do usuário")
     String name;
+
+    @NotNull(message = "Precisa ser informada a idade do usuário")
     int age;
+
+    @NotNull(message = "Precisa ser informado um número de telefone para contato")
     String phone;
+
+    @NotNull(message = "Precisa ser informado o endereço do usuário")
     String address;
 
     public Long getId() {

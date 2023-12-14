@@ -14,29 +14,6 @@ public class UserUtil {
     @Inject
     UserDAO userDAO;
 
-    //Obter informações do usuário
-    public UserDTO getUserDetails(Long userId) {
-        Optional<User> userOptional = userDAO.findById(userId);
-
-        if (userOptional != null && userOptional.isPresent()) {
-            User user = userOptional.get();
-            return convertToUserDTO(user);
-        }
-        throw new NotFoundException("Usuário não encontrado");
-    }
-
-    //Converter DTO para User
-    public User convertToUser(UserDTO userDTO){
-        User user = new User();
-
-        user.setName(userDTO.getName());
-        user.setAge(userDTO.getAge());
-        user.setPhone(userDTO.getPhone());
-        user.setAddress(userDTO.getAddress());
-
-        return user;
-    }
-
     //Converter User para DTO
     public UserDTO convertToUserDTO(User user) {
         UserDTO userDTO = new UserDTO();

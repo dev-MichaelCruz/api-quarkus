@@ -27,12 +27,6 @@ public class AccountDAO implements DAO<Account>{
         return Optional.of(account);
     }
 
-    public Account getById(Long id) {
-        Account account = this.entityManager.find(Account.class, id);
-
-        return account;
-    }
-
     @Transactional
     public void save(Account data) {
         this.entityManager.persist(data);
