@@ -1,5 +1,5 @@
 package br.com.michaelcruz.persistence.dto;
-public class DepositDTO {
+public class TransactionDTO {
     private double amount;
     public double getAmount() {
         return amount;

@@ -60,7 +60,8 @@ public class AccountService {
         }
     }
 
-    public void withdraw(Long accountId, Double amount) {
+    public void withdraw(@Valid Long accountId, double amount) {
+
         Optional<Account> optionalAccount = accountDAO.findById(accountId);
 
         if(optionalAccount != null && optionalAccount.isPresent()){
@@ -72,9 +73,6 @@ public class AccountService {
                 account.setBalance(newBalance);
 
                 accountDAO.update(account);
-
-//                Account updatedAccount = accountDAO.save(account);
-//                return  accountUtil.convertToAccountDTO((updatedAccount));
             } else {
                 throw new BadRequestException("Valor do saque indisponível na conta");
             }
