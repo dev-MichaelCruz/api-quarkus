@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public class AccountDTO {
 
-    @NotNull(message = "Precisa informar um ID da conta")
     Long accountId;
 
     @NotNull(message = "Precisa ser informado o tipo de conta")
